@@ -1,12 +1,12 @@
 if exists('g:loaded_ticard')
-  "finish
+  finish
 endif
 let g:loaded_ticard = 1
 
 function! s:TicardPush()
   let l:cmd = 'ticard push'
   if exists('g:ticard_pandoc_enabled')
-    let l:cmd = 'pandoc --to markdown --no-wrap | ' . l:cmd . ' | pandoc --to markdow'
+    let l:cmd = 'pandoc --to markdown --no-wrap | ' . l:cmd . ' | pandoc --to markdown'
   endif
   let l:cmd = '%! ' . l:cmd
   execute l:cmd
@@ -15,7 +15,7 @@ endfunction
 function! s:TicardPull(url)
   let l:cmd = 'ticard pull ' . a:url
   if exists('g:ticard_pandoc_enabled')
-    let l:cmd = l:cmd . ' | pandoc --to markdow'
+    let l:cmd = l:cmd . ' | pandoc --to markdown'
   endif
   let l:cmd = '%! ' . l:cmd
   execute l:cmd
