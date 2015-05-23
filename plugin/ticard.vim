@@ -1,9 +1,9 @@
 if exists('g:loaded_ticard')
-  "finish
+  finish
 endif
 let g:loaded_ticard = 1
 
-if exists('g:ticard_pandoc_enabled')
+if executable('pandoc') == 1 && !exists('g:ticard_pandoc_disabled')
   let s:pre_filter = 'pandoc --to markdown --no-wrap'
   let s:post_filter = 'pandoc --to markdown'
 else
