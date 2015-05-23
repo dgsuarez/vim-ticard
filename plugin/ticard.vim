@@ -12,5 +12,23 @@ function! s:TicardPush()
   execute l:cmd
 endfunction
 
-command! RuboCop :call <SID>TicardPush
+function! s:TicardPull(url)
+  let l:cmd = 'ticard pull ' . a:url
+  if exists('g:ticard_pandoc_enabled')
+    let l:cmd = l:cmd . ' | pandoc --to markdow'
+  endif
+  let l:cmd = '%! ' . l:cmd
+  execute l:cmd
+endfunction
+
+function! s:Ticard(subcmd, ...)
+  if a:subcmd ==? 'push'
+    call s:TicardPush()
+  else
+    call s:TicardPull(a:1)
+  endif
+endfunction
+
+
+command! -nargs=* Ticard :call <SID>Ticard(<f-args>)
 
