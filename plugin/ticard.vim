@@ -1,24 +1,23 @@
 if exists('g:loaded_ticard')
-  finish
+  "finish
 endif
 let g:loaded_ticard = 1
 
+if exists('g:ticard_pandoc_enabled')
+  let s:pre_filter = 'pandoc --to markdown --no-wrap'
+  let s:post_filter = 'pandoc --to markdown'
+else
+  let s:pre_filter = 'cat'
+  let s:post_filter = 'cat'
+endif
+
 function! s:TicardPush()
-  let l:cmd = 'ticard push'
-  if exists('g:ticard_pandoc_enabled')
-    let l:cmd = 'pandoc --to markdown --no-wrap | ' . l:cmd . ' | pandoc --to markdown'
-  endif
-  let l:cmd = '%! ' . l:cmd
-  execute l:cmd
+  execute '%! ' . s:pre_filter . " | ticard push | " . s:post_filter
 endfunction
 
 function! s:TicardPull(url)
   let l:cmd = 'ticard pull ' . a:url
-  if exists('g:ticard_pandoc_enabled')
-    let l:cmd = l:cmd . ' | pandoc --to markdown'
-  endif
-  let l:cmd = '%! ' . l:cmd
-  execute l:cmd
+  execute '%! ' . l:cmd . " | " . s:post_filter
 endfunction
 
 function! s:Ticard(subcmd, ...)
