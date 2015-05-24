@@ -17,6 +17,7 @@ endfunction
 
 function! s:TicardPull(url)
   let l:cmd = 'ticard pull ' . a:url
+  execute "enew"
   execute '%! ' . l:cmd . " | " . s:post_filter
 endfunction
 
