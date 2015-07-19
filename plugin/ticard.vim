@@ -13,7 +13,10 @@ else
 endif
 
 function! s:TicardPush()
-  execute '%! ' . s:pre_filter . " | ticard push | " . s:post_filter
+  execute '%w ! ticard check'
+  if v:shell_error == 0 || confirm("Card has changed, overwrite?", "&Yes\n&No", 2) == 1
+    execute '%! ' . s:pre_filter . " | ticard push --force | " . s:post_filter
+  endif
 endfunction
 
 function! s:TicardPull(url)
