@@ -31,6 +31,7 @@ function! s:Ticard(subcmd, ...)
   else
     call s:TicardPull(a:1)
   endif
+  execute "normal! g`\"zz"
 endfunction
 
 function! s:Complete(arg_lead, cmd_line, cursor_pos)
