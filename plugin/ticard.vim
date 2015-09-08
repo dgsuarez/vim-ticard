@@ -4,8 +4,8 @@ endif
 let g:loaded_ticard = 1
 
 if executable('pandoc') == 1 && !exists('g:ticard_pandoc_disabled')
-  let s:pre_filter =  'pandoc --to markdown --no-wrap'
-  let s:post_filter = 'pandoc --from markdown --to markdown_github | pandoc --to markdown'
+  let s:pre_filter =  'pandoc --to markdown_github'
+  let s:post_filter = 'pandoc --from markdown_github --to markdown_github | pandoc --to markdown | pandoc --from markdown_github --to markdown_github'
 else
   let s:pre_filter = 'cat'
   let s:post_filter = 'cat'
