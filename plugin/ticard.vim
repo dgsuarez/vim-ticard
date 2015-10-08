@@ -26,12 +26,13 @@ function! s:TicardPull(url)
 endfunction
 
 function! s:Ticard(subcmd, ...)
+  let l:line = line(".")
   if a:subcmd ==? 'push'
     call s:TicardPush()
   else
     call s:TicardPull(a:1)
   endif
-  execute "normal! g`\"zz"
+  execute ":" . l:line
 endfunction
 
 function! s:Complete(arg_lead, cmd_line, cursor_pos)
