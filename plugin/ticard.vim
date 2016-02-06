@@ -3,9 +3,19 @@ if exists('g:loaded_ticard')
 endif
 let g:loaded_ticard = 1
 
+if exists('g:ticard_pandoc_tabstop')
+  let s:tab_stop_config = ' --tab-stop ' . g:ticard_pandoc_tabstop
+else
+  let s:tab_stop_config = ''
+endif
+
 if executable('pandoc') == 1 && !exists('g:ticard_pandoc_disabled')
-  let s:pre_filter =  'pandoc --to markdown_github'
-  let s:post_filter = 'pandoc --from markdown_github --to markdown_github | pandoc --to markdown | pandoc --from markdown_github --to markdown_github'
+  let s:mdgh_to_mdgh = 'pandoc --from markdown_github --to markdown_github' . s:tab_stop_config
+  let s:to_md = 'pandoc --to markdown' . s:tab_stop_config
+  let s:to_mdgh = 'pandoc --to markdown_github' . s:tab_stop_config
+
+  let s:pre_filter = s:to_mdgh
+  let s:post_filter = s:mdgh_to_mdgh . ' | ' . s:to_md . ' | ' . s:mdgh_to_mdgh
 else
   let s:pre_filter = 'cat'
   let s:post_filter = 'cat'
